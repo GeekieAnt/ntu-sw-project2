@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import HomePage from "./pages/HomePage";
+import GameDetailPage from "./pages/GameDetailPage";
 
-function App() {
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
+darkTheme.typography.h1 = {
+  fontSize: "4rem",
+  "@media (min-width:600px)": {
+    fontSize: "4rem",
+  },
+  [darkTheme.breakpoints.down("md")]: {
+    fontSize: "2.4rem",
+  },
+};
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/id/:gameId" element={<GameDetailPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
