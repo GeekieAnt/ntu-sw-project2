@@ -97,7 +97,7 @@ const SideBar = ({ setGames, setNext, genres }) => {
 
   useEffect(() => {
     handleSelectGenre();
-  }, []);
+  }, [genre]);
 
   return (
     <Box alignContent={"flex-start"}>
