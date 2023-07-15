@@ -72,7 +72,7 @@ const NavBar = ({ handleSearch, handlerGetGames }) => {
               setInput(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === "Enter" && input) {
                 submitSearch();
               }
             }}
