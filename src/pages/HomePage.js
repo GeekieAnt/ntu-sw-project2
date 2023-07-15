@@ -39,7 +39,7 @@ const HomePage = () => {
 
   const handleSearch = async (search) => {
     try {
-      const response = await api(`/games?search=${search}`);
+      const response = await api(`/games?search=${search}&search_precise`);
       console.log(response.data);
       setGames(response.data.results);
       setNext(response.data.next);
