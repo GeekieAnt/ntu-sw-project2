@@ -78,9 +78,9 @@ const NavBar = ({ handleSearch, handlerGetGames }) => {
             }}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="end">
                   {input && (
-                    <IconButton>
+                    <IconButton edge="end">
                       <CancelIcon onClick={clearSearch} />
                     </IconButton>
                   )}
