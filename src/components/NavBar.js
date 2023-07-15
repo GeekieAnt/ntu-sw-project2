@@ -8,9 +8,12 @@ import {
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { NavLink } from "react-router-dom";
+import CancelIcon from "@mui/icons-material/Cancel";
+import InputAdornment from "@mui/material/InputAdornment";
 import { VideogameAssetOutlined } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { clear } from "@testing-library/user-event/dist/clear";
 
 const navStyles = {
   color: "inherit",
@@ -25,10 +28,14 @@ const NavBar = ({ handleSearch, handlerGetGames }) => {
     handleSearch(input);
   };
 
+  const clearSearch = () => {
+    setInput("");
+  };
+
   const home = () => {
     handlerGetGames();
     setInput("");
-  }
+  };
 
   return (
     <AppBar>
@@ -49,12 +56,7 @@ const NavBar = ({ handleSearch, handlerGetGames }) => {
           >
             <VideogameAssetOutlined sx={{ color: "white" }} />
           </IconButton>
-          <Typography
-            component={NavLink}
-            to="/"
-            sx={navStyles}
-            onClick={home}
-          >
+          <Typography component={NavLink} to="/" sx={navStyles} onClick={home}>
             GAME STORE
           </Typography>
         </Box>
@@ -74,8 +76,20 @@ const NavBar = ({ handleSearch, handlerGetGames }) => {
                 submitSearch();
               }
             }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  {input && (
+                    <IconButton>
+                      <CancelIcon onClick={clearSearch} />
+                    </IconButton>
+                  )}
+                </InputAdornment>
+              ),
+            }}
           />
         </Box>
+
         <SearchIcon onClick={submitSearch} sx={{ ml: 1 }} />
         <Box flexGrow={1} sx={{ ml: 10 }}>
           <Typography component={NavLink} to="/" sx={navStyles}></Typography>
