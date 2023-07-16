@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Card,
   CardMedia,
@@ -29,9 +29,14 @@ const GameList = ({ games }) => {
             />
             <CardContent>
               <Typography gutterBottom variant="h7" component="div">
-                <Link to={`/id/${item.id}`} style={linkStyle}>
+                <NavLink 
+                  to={`/id/${item.id}`} 
+                  state={{stateParam: games}}
+                  style={linkStyle}
+                  
+                  key={item.id}>
                   {item.name}
-                </Link>
+                </NavLink>
               </Typography>
               <Stack>
                 <Rating defaultValue={item.rating} precision={0.1} readOnly />
