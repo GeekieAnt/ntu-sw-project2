@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Typography, CardMedia, Grid, useTheme } from "@mui/material";
+import { Button, Typography, CardMedia, Grid } from "@mui/material";
 import {useNavigate, useParams, useLocation} from 'react-router-dom';
 import { useState, useEffect} from "react";
 import api from "../Services/api";
@@ -10,8 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 const GameDetailPage = ( ) => {
   const navigate = useNavigate();
-  const theme = useTheme();
-
+  const [expanded, setExpanded] = useState(false);
 
   // get game state
   const [game, setGame] = useState([]);
@@ -36,8 +35,21 @@ const GameDetailPage = ( ) => {
   const{
     name,
     description_raw,
-    background_image
+    background_image,
   } = game 
+
+  // readmore feature
+  const toggleReadMore = () => {
+    setExpanded(!expanded);
+  };
+ 
+  let displayText = 'Loading Data'; 
+  const maxLength = 900; 
+
+  if (game.length !== 0)
+  {
+    displayText = expanded ? description_raw : description_raw.slice(0, maxLength) + '...';
+  }
 
   //to get obj with screenshots
   const stateParamVal = useLocation().state.stateParam;
@@ -92,7 +104,18 @@ const GameDetailPage = ( ) => {
             mt: 2,
             fontFamily: 'Roboto',
             fontSize: '1.2rem' }}>
-            {description_raw}
+            {displayText}
+            {!expanded && displayText.length > maxLength && (
+            <Typography
+              variant="body1"
+              component="span"
+              color="primary"
+              onClick={toggleReadMore}
+              style={{ cursor: 'pointer' }}
+            >
+              Read More
+            </Typography>
+            )}
           </Typography>          
         </Grid>
           <Grid item xs={7} lg={5} >
