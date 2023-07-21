@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Typography, CardMedia, Grid } from "@mui/material";
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../Services/api";
@@ -11,6 +11,8 @@ import "slick-carousel/slick/slick-theme.css";
 import ReactApexChart from "react-apexcharts";
 
 const GameDetailPage = () => {
+
+
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
 
@@ -33,7 +35,7 @@ const GameDetailPage = () => {
     getGame(params.gameId);
   }, [params.gameId]);
 
-  const { name, description_raw, background_image } = game;
+  const { name, description_raw, background_image, developers } = game;
 
   // readmore feature
   const toggleReadMore = () => {
@@ -90,8 +92,8 @@ const GameDetailPage = () => {
           fontWeight: "bold",
         },
       },
-      legend:{
-        fontSize:'16px',
+      legend: {
+        fontSize: "16px",
         markers: {
           width: 20,
           height: 20,
@@ -99,6 +101,14 @@ const GameDetailPage = () => {
       },
     },
   };
+
+  // store developers details into developerNames
+  let developerNames = ["loading", "loading"]; 
+
+  if (developers !=null){
+    developerNames = developers.map(dev => dev.name);
+  }
+  
   return (
     <>
       <Button
@@ -158,26 +168,49 @@ const GameDetailPage = () => {
             )}
           </Typography>
 
-          <Typography 
-          variant="h5"
-           sx={{
-            mx: 10,
-            mt: 2,
-          }}>
-            User Rating (%)</Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              mx: 10,
+              mt: 2,
+              fontFamily: "Roboto",
+              fontSize: "1.2rem",
+            }}
+          >
+            Developed by: {developerNames.join(', ')}
+          </Typography>
+
+          <Typography
+            variant="h5"
+            sx={{
+              mx: 10,
+              mt: 2,
+            }}
+          >
+            User Rating (%)
+          </Typography>
 
           <ReactApexChart
-          options={data.options}
-          series={data.series}
-          type="pie"
-          width={500}
-        />   
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined" style={{color: "#0088FE"}}>Exceptional ({gameItem.ratings[0].count})</Button>
-          <Button variant="outlined" style={{color: "#00C49F"}}>Recommended ({gameItem.ratings[1].count})</Button>
-          <Button variant="outlined" style={{color: "#FFBB28"}}>Meh ({gameItem.ratings[2].count})</Button>
-          <Button variant="outlined" style={{color: "#FF8042"}}>Skip ({gameItem.ratings[3].count})</Button>
-        </Stack>
+            options={data.options}
+            series={data.series}
+            type="pie"
+            width={400}
+          />
+
+          <Stack direction="row" spacing={2}>
+            <Button variant="outlined" style={{ color: "#0088FE" }}>
+              Exceptional ({gameItem.ratings[0].count})
+            </Button>
+            <Button variant="outlined" style={{ color: "#00C49F" }}>
+              Recommended ({gameItem.ratings[1].count})
+            </Button>
+            <Button variant="outlined" style={{ color: "#FFBB28" }}>
+              Meh ({gameItem.ratings[2].count})
+            </Button>
+            <Button variant="outlined" style={{ color: "#FF8042" }}>
+              Skip ({gameItem.ratings[3].count})
+            </Button>
+          </Stack>
         </Grid>
 
         <Grid item xs={7} lg={5}>
@@ -191,6 +224,7 @@ const GameDetailPage = () => {
               margin: 4,
             }}
           />
+
           <Slider {...settings}>
             {screenshotArr.map((item, index) => (
               <CardMedia
